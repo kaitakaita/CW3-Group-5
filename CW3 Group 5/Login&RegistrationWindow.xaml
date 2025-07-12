@@ -1,0 +1,81 @@
+﻿<Window x:Class="CW3_Group_5.Login_RegistrationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CW3_Group_5"
+        mc:Ignorable="d"
+        Title="Login_RegistrationWindow" Height="450" Width="800">
+    <Grid>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="434" Margin="321,0,0,0" VerticalAlignment="Center" Width="479"/>
+
+        <Border BorderBrush="#FFD8B93E" BorderThickness="1" HorizontalAlignment="Left" Height="434" VerticalAlignment="Center" Width="321" Background="#D8D8B93E">
+            <!-- Container inside Border to hold multiple elements -->
+            <Grid>
+                <TextBlock HorizontalAlignment="Center" Height="130" Margin="0,55,0,0"
+                           TextWrapping="Wrap"
+                           Text="Haven't Registered Yet? Sign Up Below"
+                           VerticalAlignment="Top" Width="252"
+                           Foreground="White" FontFamily="Bahnschrift" FontSize="33"/>
+
+                <!-- Add more elements here without them disappearing -->
+                <TextBlock Text="Enter your info here to connect with us" Foreground="White" Margin="0,200,0,0"
+                           HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Bahnschrift" FontSize="15"/>
+            </Grid>
+        </Border>
+        <Button Content="Sign Up" HorizontalAlignment="Left" Height="30" Margin="100,241,0,0" VerticalAlignment="Top" Width="120" Background="{x:Null}" BorderBrush="White" FontFamily="Bahnschrift" FontSize="15" Foreground="White"/>
+        <TextBlock HorizontalAlignment="Left" Height="41" Margin="508,55,0,0" TextWrapping="Wrap" Text="Sign In" VerticalAlignment="Top" Width="104" TextAlignment="Center" FontFamily="Bahnschrift" FontSize="33" Foreground="#FFD8B93E"/>
+        <!-- Email TextBox -->
+        <Grid Margin="433,134,103,0" VerticalAlignment="Top" Height="22">
+            <TextBox x:Name="EmailTextBox"
+             Height="22"
+             FontFamily="Bahnschrift"
+             TextChanged="EmailTextBox_TextChanged" Margin="0,0,10,0"/>
+
+            <TextBlock x:Name="EmailPlaceholder"
+               Text="Enter email here"
+               Foreground="Gray"
+               Margin="5,2,10,0"
+               VerticalAlignment="Top"
+               IsHitTestVisible="False"
+               FontFamily="Bahnschrift"
+               FontSize="12"/>
+        </Grid>
+
+        <!-- Email Icon -->
+        <Image HorizontalAlignment="Left"
+       Height="16"
+       Margin="417,137,0,0"
+       VerticalAlignment="Top"
+       Width="16"
+       Source="/Images/mail_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"/>
+
+        <!-- Password TextBox -->
+        <Grid Margin="433,161,103,0" VerticalAlignment="Top" Height="22">
+            <PasswordBox x:Name="PasswordBox"
+                 Height="22"
+                 FontFamily="Bahnschrift"
+                 PasswordChanged="PasswordBox_PasswordChanged" Margin="0,0,10,0"/>
+
+            <TextBlock x:Name="PasswordPlaceholder"
+               Text="Enter password here"
+               Foreground="Gray"
+               Margin="5,2,0,0"
+               VerticalAlignment="Top"
+               IsHitTestVisible="False"
+               FontFamily="Bahnschrift"
+               FontSize="12"/>
+        </Grid>
+
+        <!-- Password Icon -->
+        <Image HorizontalAlignment="Left"
+       Height="16"
+       Margin="417,164,0,0"
+       VerticalAlignment="Top"
+       Width="16"
+       Source="/Images/lock_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"/>
+
+
+    </Grid>
+</Window>
+
