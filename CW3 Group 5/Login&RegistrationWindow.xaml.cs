@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace CW3_Group_5
 {
@@ -26,13 +16,14 @@ namespace CW3_Group_5
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            // Optional, remove if not needed
         }
 
         private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
         {
-
+            // Optional, remove if not needed
         }
+
         private void EmailTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             EmailPlaceholder.Visibility = string.IsNullOrWhiteSpace(EmailTextBox.Text)
@@ -47,5 +38,24 @@ namespace CW3_Group_5
                 : Visibility.Collapsed;
         }
 
+        private void SignUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            SignUpWindow signUpWindow = new SignUpWindow();
+            signUpWindow.Show();
+            this.Close(); // Optional: close login/registration window
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void ReturnHome_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close(); // closes the current window
+        }
+
     }
 }
+
