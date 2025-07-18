@@ -1,11 +1,14 @@
-﻿using System;
-using System.Data.SqlClient;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace CW3_Group_5
 {
     public partial class AdminLogin : Window
     {
+        // Hardcoded admin credentials
+        private const string adminEmail = "admin@example.com";
+        private const string adminPassword = "admin123";
+
         public AdminLogin()
         {
             InitializeComponent();
@@ -13,53 +16,31 @@ namespace CW3_Group_5
 
         private void AdminLogin_Click(object sender, RoutedEventArgs e)
         {
-            string email = AdminEmailTextBox.Text;
-            string password = AdminPasswordBox.Password;
+            string emailInput = AdminEmailTextBox.Text.Trim();
+            string passwordInput = AdminPasswordBox.Password;
 
-            // ⚠️ Replace with your actual connection string
-            string connectionString = "Data Source=DESKTOP-8VS8BG\\SQL2022TRAINING;Initial Catalog=DatabaseDB;Integrated Security=True";
-
-            try
+            if (emailInput == adminEmail && passwordInput == adminPassword)
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-
-                    string query = @"SELECT UserID FROM Users 
-                                     WHERE Email = @Email AND PasswordHash = @Password AND RoleID = 1"; // RoleID = 1 means Admin
-
-                    SqlCommand cmd = new SqlCommand(query, connection);
-                    cmd.Parameters.AddWithValue("@Email", email);
-                    cmd.Parameters.AddWithValue("@Password", password); // ⚠️ Consider hashing this in real use
-
-                    object result = cmd.ExecuteScalar();
-
-                    if (result != null)
-                    {
-                        int adminID = Convert.ToInt32(result);
-
-                        // Log admin login
-                        string logQuery = @"INSERT INTO AdminActionLog (AdminID, ActionType, Description, Timestamp)
-                                            VALUES (@AdminID, 'Login', 'Admin successfully logged in.', @Timestamp)";
-                        SqlCommand logCmd = new SqlCommand(logQuery, connection);
-                        logCmd.Parameters.AddWithValue("@AdminID", adminID);
-                        logCmd.Parameters.AddWithValue("@Timestamp", DateTime.Now);
-                        logCmd.ExecuteNonQuery();
-
-                        MessageBox.Show("Login successful!", "Admin Login", MessageBoxButton.OK, MessageBoxImage.Information);
-                        // TODO: Navigate to Admin Dashboard here
-                    }
-                    else
-                    {
-                        MessageBox.Show("Invalid credentials or not an admin.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    }
-                }
+                MessageBox.Show("Login successful!", "Admin Login", MessageBoxButton.OK, MessageBoxImage.Information);
+                // You can open another window here if needed in the future
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Error: " + ex.Message, "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Invalid email or password.", "Login Failed", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void AdminEmailTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            EmailPlaceholder.Visibility = string.IsNullOrEmpty(AdminEmailTextBox.Text) ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        private void AdminPasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            PasswordPlaceholder.Visibility = string.IsNullOrEmpty(AdminPasswordBox.Password) ? Visibility.Visible : Visibility.Hidden;
         }
     }
 }
+
+
 
