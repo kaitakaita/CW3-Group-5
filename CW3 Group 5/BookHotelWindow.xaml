@@ -1,0 +1,95 @@
+﻿<Window x:Class="CW3_Group_5.BookHotelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Book Hotel" Height="600" Width="1000" Background="#F7F8FA">
+    <Grid Margin="30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Panel: Search/Filter -->
+        <Border Grid.Column="0" Background="White" CornerRadius="10" Padding="20" >
+            <StackPanel>
+                <TextBlock Text="Find Your Perfect Stay" FontWeight="Bold" FontSize="18" Margin="0,0,0,8"/>
+                <TextBlock Text="Discover amazing hotels across the Philippines" Foreground="Gray" FontSize="13" Margin="0,0,0,16"/>
+
+                <!-- Destination -->
+                <TextBlock Text="Destination" FontWeight="SemiBold" Margin="0,8,0,2"/>
+                <ComboBox x:Name="DestinationComboBox" Height="30" Margin="0,0,0,10"
+                          FontFamily="Bahnschrift" FontSize="14"
+                          ItemsSource="{Binding Destinations}" SelectedItem="{Binding SelectedDestination}"/>
+
+                <!-- Check-in Date -->
+                <TextBlock Text="Check-in Date" FontWeight="SemiBold" Margin="0,8,0,2"/>
+                <DatePicker x:Name="CheckInDatePicker" Height="30" Margin="0,0,0,10"/>
+
+                <!-- Check-out Date -->
+                <TextBlock Text="Check-out Date" FontWeight="SemiBold" Margin="0,8,0,2"/>
+                <DatePicker x:Name="CheckOutDatePicker" Height="30" Margin="0,0,0,10"/>
+
+                <!-- Guests -->
+                <TextBlock Text="Guests" FontWeight="SemiBold" Margin="0,8,0,2"/>
+                <ComboBox x:Name="GuestsComboBox" Height="30" Margin="0,0,0,16"
+                          FontFamily="Bahnschrift" FontSize="14"
+                          ItemsSource="{Binding GuestOptions}" SelectedItem="{Binding SelectedGuests}"/>
+
+                <!-- Search Button -->
+                <Button Content="Search Hotels" Height="35" FontWeight="Bold"
+                        Background="#2196F3" Foreground="White" FontFamily="Bahnschrift"
+                        Margin="0,0,0,16" Click="SearchButton_Click"/>
+
+                <!-- Popular Destinations -->
+                <TextBlock Text="Popular Destinations" FontWeight="SemiBold" Margin="0,8,0,8"/>
+                <WrapPanel>
+                    <Button Content="Manila" Margin="4" Click="LocationButton_Click"/>
+                    <Button Content="Cebu" Margin="4" Click="LocationButton_Click"/>
+                    <Button Content="Tagaytay" Margin="4" Click="LocationButton_Click"/>
+                    <Button Content="Bulacan" Margin="4" Click="LocationButton_Click"/>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Right Panel: Hotel Results -->
+        <StackPanel Grid.Column="2">
+            <!-- Header -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBlock Text="Hotels in " FontWeight="Bold" FontSize="18"/>
+                <TextBlock Text="{Binding SelectedDestination}" FontWeight="Bold" FontSize="18" Foreground="#2196F3"/>
+                <TextBlock Text=" | " FontSize="18"/>
+                <TextBlock Text="{Binding HotelsListView.Items.Count, StringFormat={}{0} results}" FontSize="14" Foreground="Gray" Margin="10,0,0,0"/>
+            </StackPanel>
+
+            <!-- Sort/Filter -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <ComboBox x:Name="SortComboBox" Width="150" Margin="0,0,10,0"
+                          FontFamily="Bahnschrift" FontSize="14"
+                          ItemsSource="{Binding SortOptions}" SelectedItem="{Binding SelectedSort}"/>
+                <ComboBox x:Name="FilterComboBox" Width="150"
+                          FontFamily="Bahnschrift" FontSize="14"
+                          ItemsSource="{Binding FilterOptions}" SelectedItem="{Binding SelectedFilter}"/>
+            </StackPanel>
+
+            <!-- Hotel Cards -->
+            <ItemsControl x:Name="HotelsListView" Margin="0,0,0,0" ItemsSource="{Binding FilteredHotels}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="White" CornerRadius="10" Margin="0,0,0,20" Padding="16" >
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="16"/>
+                                    <TextBlock Text="{Binding StarRating, StringFormat={}  ★ {0}}" Foreground="#FFD8B93E" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
+                                </StackPanel>
+                                <TextBlock Text="{Binding Location}" Foreground="Gray" FontSize="13"/>
+                                <TextBlock Text="₱{Binding Rate}/night" FontWeight="Bold" FontSize="16" Foreground="#2196F3" Margin="0,8,0,0"/>
+                                <TextBlock Text="Available Pax: {Binding Pax}" FontSize="13" Margin="0,2,0,0"/>
+                                <Button Content="Book Now" Width="100" Height="30" Background="#2196F3" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,10,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </Grid>
+</Window>

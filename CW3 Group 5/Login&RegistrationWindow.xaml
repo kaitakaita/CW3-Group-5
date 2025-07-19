@@ -67,10 +67,14 @@
 
         <!-- Password TextBox -->
         <Grid Margin="433,0,103,0" VerticalAlignment="Center" Height="22">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="26*"/>
+            </Grid.ColumnDefinitions>
             <PasswordBox x:Name="PasswordBox"
                  Height="22"
                  FontFamily="Bahnschrift"
-                 PasswordChanged="PasswordBox_PasswordChanged" Margin="0,0,10,0"/>
+                 PasswordChanged="PasswordBox_PasswordChanged" Margin="0,0,10,0" Grid.ColumnSpan="2"/>
 
             <TextBlock x:Name="PasswordPlaceholder"
                Text="Enter password here"
@@ -79,7 +83,7 @@
                VerticalAlignment="Top"
                IsHitTestVisible="False"
                FontFamily="Bahnschrift"
-               FontSize="12"/>
+               FontSize="12" Grid.ColumnSpan="2"/>
         </Grid>
 
         <!-- Password Icon -->
@@ -108,8 +112,17 @@
             VerticalAlignment="Top"
             Width="16"
             Source="/arrow_back_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" Grid.Row="1"/>
-
-
+        <Button Content="Sign In"
+        Width="120"
+        Height="30"
+        HorizontalAlignment="Left"
+        Margin="500,226,0,0"
+        VerticalAlignment="Top"
+        Background="#FFD8B93E"
+        Foreground="White"
+        FontFamily="Bahnschrift"
+        FontSize="15"
+        Click="SignInButton_Click"/>
     </Grid>
 </Window>
 

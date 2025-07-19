@@ -56,6 +56,22 @@ namespace CW3_Group_5
             this.Close(); // closes the current window
         }
 
+        private void SignInButton_Click(object sender, RoutedEventArgs e)
+        {
+            string email = EmailTextBox.Text;
+            string password = PasswordBox.Password;
+
+            if (email == "test123" && password == "test123")
+            {
+                BookHotelWindow bookHotelWindow = new BookHotelWindow();
+                bookHotelWindow.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Invalid email or password.", "Sign In Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
     }
 }
 
