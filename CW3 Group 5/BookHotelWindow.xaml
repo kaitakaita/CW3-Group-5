@@ -10,9 +10,9 @@
         </Grid.ColumnDefinitions>
 
         <!-- Left Panel: Search/Filter -->
-        <Border Grid.Column="0" Background="White" CornerRadius="10" Padding="20" >
+        <Border Grid.Column="0" Background="#FFDEE2E6" CornerRadius="10" Padding="20" >
             <StackPanel>
-                <TextBlock Text="Find Your Perfect Stay" FontWeight="Bold" FontSize="18" Margin="0,0,0,8"/>
+                <TextBlock Text="Find Your Perfect Stay" FontWeight="Bold" FontSize="18" Margin="0,0,0,8" FontFamily="Bahnschrift"/>
                 <TextBlock Text="Discover amazing hotels across the Philippines" Foreground="Gray" FontSize="13" Margin="0,0,0,16"/>
 
                 <!-- Destination -->
@@ -37,16 +37,16 @@
 
                 <!-- Search Button -->
                 <Button Content="Search Hotels" Height="35" FontWeight="Bold"
-                        Background="#2196F3" Foreground="White" FontFamily="Bahnschrift"
+                        Background="#FFD8B93E" Foreground="White" FontFamily="Bahnschrift"
                         Margin="0,0,0,16" Click="SearchButton_Click"/>
 
                 <!-- Popular Destinations -->
                 <TextBlock Text="Popular Destinations" FontWeight="SemiBold" Margin="0,8,0,8"/>
                 <WrapPanel>
-                    <Button Content="Manila" Margin="4" Click="LocationButton_Click"/>
-                    <Button Content="Cebu" Margin="4" Click="LocationButton_Click"/>
-                    <Button Content="Tagaytay" Margin="4" Click="LocationButton_Click"/>
-                    <Button Content="Bulacan" Margin="4" Click="LocationButton_Click"/>
+                    <Button Content="Manila" Margin="4" Click="LocationButton_Click" FontFamily="Bahnschrift" Background="#0FFFFFFF" BorderBrush="#FF707070"/>
+                    <Button Content="Cebu" Margin="4" Click="LocationButton_Click" FontFamily="Bahnschrift" Background="Transparent"/>
+                    <Button Content="Tagaytay" Margin="4" Click="LocationButton_Click" FontFamily="Bahnschrift" Background="Transparent"/>
+                    <Button Content="Bulacan" Margin="4" Click="LocationButton_Click" FontFamily="Bahnschrift" Background="Transparent"/>
                 </WrapPanel>
             </StackPanel>
         </Border>
@@ -56,7 +56,7 @@
             <!-- Header -->
             <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <TextBlock Text="Hotels in " FontWeight="Bold" FontSize="18"/>
-                <TextBlock Text="{Binding SelectedDestination}" FontWeight="Bold" FontSize="18" Foreground="#2196F3"/>
+                <TextBlock Text="{Binding SelectedDestination}" FontWeight="Bold" FontSize="18" Foreground="#FFD8B93E"/>
                 <TextBlock Text=" | " FontSize="18"/>
                 <TextBlock Text="{Binding HotelsListView.Items.Count, StringFormat={}{0} results}" FontSize="14" Foreground="Gray" Margin="10,0,0,0"/>
             </StackPanel>
@@ -82,9 +82,9 @@
                                     <TextBlock Text="{Binding StarRating, StringFormat={}  ★ {0}}" Foreground="#FFD8B93E" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
                                 </StackPanel>
                                 <TextBlock Text="{Binding Location}" Foreground="Gray" FontSize="13"/>
-                                <TextBlock Text="₱{Binding Rate}/night" FontWeight="Bold" FontSize="16" Foreground="#2196F3" Margin="0,8,0,0"/>
+                                <TextBlock Text="₱{Binding Rate}/night" FontWeight="Bold" FontSize="16" Foreground="#FFD8B93E" Margin="0,8,0,0"/>
                                 <TextBlock Text="Available Pax: {Binding Pax}" FontSize="13" Margin="0,2,0,0"/>
-                                <Button Content="Book Now" Width="100" Height="30" Background="#2196F3" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,10,0,0"/>
+                                <Button Content="Book Now" Width="100" Height="30" Background="#FFD8B93E" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,10,0,0"/>
                             </StackPanel>
                         </Border>
                     </DataTemplate>
