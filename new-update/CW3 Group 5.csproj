@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>CW3_Group_5</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="arrow_back_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" />
+    <None Remove="HotelImg1.jpg" />
+    <None Remove="Images\account_box_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" />
+    <None Remove="Images\arrow_back_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" />
+    <None Remove="Images\hotel photo new.png" />
+    <None Remove="Images\hotel photo.png" />
+    <None Remove="Images\hotel photos.png" />
+    <None Remove="Images\HotelImg1.jpg" />
+    <None Remove="Images\HotelImg2.jpg" />
+    <None Remove="Images\HotelImg3.jpg" />
+    <None Remove="Images\lock_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" />
+    <None Remove="Images\mail_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="arrow_back_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" />
+    <Resource Include="HotelImg1.jpg" />
+    <Resource Include="Images\account_box_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\arrow_back_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\hotel photo new.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\hotel photo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\hotel photos.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\HotelImg1.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\HotelImg2.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\HotelImg3.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\lock_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\mail_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\WelcomeScreenBG.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>

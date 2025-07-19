@@ -1,0 +1,79 @@
+﻿<Window x:Class="CW3_Group_5.AdminLogin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CW3_Group_5"
+        mc:Ignorable="d"
+        Title="Admin Login" Height="350" Width="500" Background="#FF1E1E1E">
+    <Grid>
+        <!-- Centered Admin Login Panel -->
+        <Border BorderBrush="#FFD8B93E" BorderThickness="1" Width="360" Height="300"
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                Background="#D8000000" CornerRadius="10">
+            <Grid Margin="20">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
+
+                    <!-- Title -->
+                    <TextBlock Text="Admin Login"
+                               FontSize="28"
+                               FontFamily="Bahnschrift"
+                               Foreground="#FFD8B93E"
+                               HorizontalAlignment="Center"
+                               Margin="0,10,0,20"/>
+
+                    <!-- Email -->
+                    <Grid Height="28" Margin="0,0,0,10">
+                        <Image Source="/Images/mail_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
+                               Width="20" Height="20" Margin="5,4,0,0"
+                               HorizontalAlignment="Left"/>
+                        <TextBox x:Name="AdminEmailTextBox"
+                                 Height="28"
+                                 Margin="28,0,0,0"
+                                 FontFamily="Bahnschrift"
+                                 TextChanged="AdminEmailTextBox_TextChanged"/>
+                        <TextBlock x:Name="EmailPlaceholder"
+                                   Text="Email"
+                                   Foreground="Gray"
+                                   Margin="33,4,0,0"
+                                   IsHitTestVisible="False"
+                                   VerticalAlignment="Top"
+                                   FontFamily="Bahnschrift"/>
+                    </Grid>
+
+                    <!-- Password -->
+                    <Grid Height="28" Margin="0,0,0,20">
+                        <Image Source="/Images/lock_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png"
+                               Width="20" Height="20" Margin="5,4,0,0"
+                               HorizontalAlignment="Left"/>
+                        <PasswordBox x:Name="AdminPasswordBox"
+                                     Height="28"
+                                     Margin="28,0,0,0"
+                                     FontFamily="Bahnschrift"
+                                     PasswordChanged="AdminPasswordBox_PasswordChanged"/>
+                        <TextBlock x:Name="PasswordPlaceholder"
+                                   Text="Password"
+                                   Foreground="Gray"
+                                   Margin="33,4,0,0"
+                                   IsHitTestVisible="False"
+                                   VerticalAlignment="Top"
+                                   FontFamily="Bahnschrift"/>
+                    </Grid>
+
+                    <!-- Login Button -->
+                    <Button Content="Login"
+                            Width="100"
+                            Height="30"
+                            HorizontalAlignment="Center"
+                            FontFamily="Bahnschrift"
+                            FontSize="14"
+                            Background="{x:Null}"
+                            BorderBrush="White"
+                            Foreground="White"
+                            Click="AdminLogin_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
+
