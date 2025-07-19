@@ -45,6 +45,13 @@ namespace CW3_Group_5
         {
             MessageBox.Show("Sign up clicked! Add validation or database logic here.");
         }
+
+        private void ReturnHome_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
+        }
     }
 }
 

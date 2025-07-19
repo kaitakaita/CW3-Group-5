@@ -112,6 +112,23 @@
                 </StackPanel>
             </Grid>
         </Border>
+        <Button Content="Return Home"
+            Width="77"
+            Height="20"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="225,35,0,0"
+            Background="Transparent"
+            BorderBrush="Transparent"
+            Foreground="White"
+            FontFamily="Bahnschrift"
+            FontWeight="Bold" RenderTransformOrigin="0.486,1.536" Click="ReturnHome_Click"/>
+        <Image HorizontalAlignment="Left"
+            Height="16"
+            Margin="209,37,0,0"
+            VerticalAlignment="Top"
+            Width="16"
+            Source="/arrow_back_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" RenderTransformOrigin="0.746,1.311"/>
     </Grid>
 </Window>
 
