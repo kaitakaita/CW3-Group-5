@@ -39,6 +39,13 @@ namespace CW3_Group_5
         {
             PasswordPlaceholder.Visibility = string.IsNullOrEmpty(AdminPasswordBox.Password) ? Visibility.Visible : Visibility.Hidden;
         }
+
+        private void ReturnHome_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
+        }
     }
 }
 

@@ -14,7 +14,6 @@ namespace CW3_Group_5
             "/Images/HotelImg2.jpg",
             "/Images/HotelImg3.jpg"
         };
-
         private int currentImageIndex = 0;
         private DispatcherTimer timer;
 
@@ -51,14 +50,15 @@ namespace CW3_Group_5
         {
             Login_RegistrationWindow loginWindow = new Login_RegistrationWindow();
             loginWindow.Show();
-            this.Close(); // Optional
+            this.Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            AdminLogin adminLoginWindow = new AdminLogin();
+            adminLoginWindow.Show();
+            this.Close();
         }
-
     }
 }
 
