@@ -14,6 +14,7 @@
     <None Remove="HotelImg1.jpg" />
     <None Remove="Images\account_box_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" />
     <None Remove="Images\arrow_back_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" />
+    <None Remove="Images\dr5cbbya3md01.jpg" />
     <None Remove="Images\hotel photo new.png" />
     <None Remove="Images\hotel photo.png" />
     <None Remove="Images\hotel photos.png" />
@@ -31,6 +32,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\arrow_back_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\dr5cbbya3md01.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\hotel photo new.png">
