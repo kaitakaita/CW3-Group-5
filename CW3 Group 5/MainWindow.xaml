@@ -95,7 +95,7 @@
                Margin="515,138,0,0"
                VerticalAlignment="Top"
                Stretch="UniformToFill"/>
-        <Button Content="See all" HorizontalAlignment="Left" Height="18" Margin="722,115,0,0" VerticalAlignment="Top" Width="38" Background="{x:Null}" BorderBrush="{x:Null}"/>
+        <Button Content="See all" HorizontalAlignment="Left" Height="18" Margin="722,115,0,0" VerticalAlignment="Top" Width="38" Background="{x:Null}" BorderBrush="{x:Null}" Click="SeeAll_Click"/>
 
     </Grid>
 </Window>

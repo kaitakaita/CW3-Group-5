@@ -59,6 +59,13 @@ namespace CW3_Group_5
             adminLoginWindow.Show();
             this.Close();
         }
+
+        private void SeeAll_Click(object sender, RoutedEventArgs e)
+        {
+            Login_RegistrationWindow loginWindow = new Login_RegistrationWindow();
+            loginWindow.Show();
+            this.Close();
+        }
     }
 }
 
