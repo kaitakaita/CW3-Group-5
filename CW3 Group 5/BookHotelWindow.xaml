@@ -20,7 +20,9 @@
 
                 <!-- Destination -->
                 <TextBlock Text="Destination" FontWeight="SemiBold" Margin="0,8,0,2"/>
-                <ComboBox x:Name="DestinationComboBox" Height="30" Margin="0,0,0,10"
+                <ComboBox x:Name="DestinationComboBox"
+                          Height="30"
+                          Margin="0,0,0,10"
                           FontFamily="Bahnschrift" FontSize="14"
                           ItemsSource="{Binding Destinations}" SelectedItem="{Binding SelectedDestination}"/>
 
@@ -43,13 +45,13 @@
                         Background="#FFD8B93E" Foreground="White" FontFamily="Bahnschrift"
                         Margin="0,0,0,16" Click="SearchButton_Click"/>
 
-                <!-- Popular Destinations -->
+                <!-- Popular Destinations (removed LocationButton_Click) -->
                 <TextBlock Text="Popular Destinations" FontWeight="SemiBold" Margin="0,8,0,8"/>
                 <WrapPanel>
-                    <Button Content="Manila" Margin="4" Click="LocationButton_Click" FontFamily="Bahnschrift" Background="#0FFFFFFF" BorderBrush="#FF707070"/>
-                    <Button Content="Cebu" Margin="4" Click="LocationButton_Click" FontFamily="Bahnschrift" Background="Transparent"/>
-                    <Button Content="Tagaytay" Margin="4" Click="LocationButton_Click" FontFamily="Bahnschrift" Background="Transparent"/>
-                    <Button Content="Bulacan" Margin="4" Click="LocationButton_Click" FontFamily="Bahnschrift" Background="Transparent"/>
+                    <Button Content="Manila" Margin="4" FontFamily="Bahnschrift" Background="#0FFFFFFF" BorderBrush="#FF707070"/>
+                    <Button Content="Cebu" Margin="4" FontFamily="Bahnschrift" Background="Transparent"/>
+                    <Button Content="Tagaytay" Margin="4" FontFamily="Bahnschrift" Background="Transparent"/>
+                    <Button Content="Bulacan" Margin="4" FontFamily="Bahnschrift" Background="Transparent"/>
                 </WrapPanel>
             </StackPanel>
         </Border>
@@ -85,9 +87,18 @@
                                     <TextBlock Text="{Binding StarRating, StringFormat={}  ★ {0}}" Foreground="#FFD8B93E" FontWeight="Bold" FontSize="14" Margin="10,0,0,0"/>
                                 </StackPanel>
                                 <TextBlock Text="{Binding Location}" Foreground="Gray" FontSize="13"/>
-                                <TextBlock Text="₱{Binding Rate}/night" FontWeight="Bold" FontSize="16" Foreground="#FFD8B93E" Margin="0,8,0,0"/>
-                                <TextBlock Text="Available Pax: {Binding Pax}" FontSize="13" Margin="0,2,0,0"/>
-                                <Button Content="Book Now" Width="100" Height="30" Background="#FFD8B93E" Foreground="White" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,10,0,0"/>
+                                <TextBlock Text="{Binding Rate, StringFormat=₱{0}/night}" FontWeight="Bold" FontSize="16" Foreground="#FFD8B93E" Margin="0,8,0,0"/>
+                                <TextBlock Text="{Binding Pax, StringFormat=Available Pax: {0}}" FontSize="13" Margin="0,2,0,0"/>
+                                <Button Content="Book Now"
+                                        Width="100"
+                                        Height="30"
+                                        Background="#FFD8B93E"
+                                        Foreground="White"
+                                        FontWeight="Bold"
+                                        HorizontalAlignment="Right"
+                                        Margin="0,10,0,0"
+                                        DataContext="{Binding}"
+                                        Click="BookNow_Click"/>
                             </StackPanel>
                         </Border>
                     </DataTemplate>

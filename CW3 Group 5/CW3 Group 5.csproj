@@ -26,6 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="arrow_back_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png" />
     <Resource Include="HotelImg1.jpg" />
     <Resource Include="Images\account_box_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.png">
