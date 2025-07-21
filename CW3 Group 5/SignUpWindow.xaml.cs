@@ -2,17 +2,15 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Data.SqlClient;
+using System.Security.Cryptography; // ADD THIS FOR HASHING
+using System.Text;                  // ADD THIS FOR HASHING
 
 namespace CW3_Group_5
 {
-    /// <summary>
-    /// Interaction logic for SignUpWindow.xaml
-    /// </summary>
     public partial class SignUpWindow : Window
     {
-        // Declare connectionString once at the class level
         private readonly string connectionString =
-            @"Server=localhost\SQLEXPRESS;Database=HotelBookingDB;Trusted_Connection=True;"; //
+            @"Server=localhost\SQLEXPRESS;Database=HotelBookingDB;Trusted_Connection=True;";
 
         public SignUpWindow()
         {
@@ -49,13 +47,11 @@ namespace CW3_Group_5
 
         private void SignUp_Click(object sender, RoutedEventArgs e)
         {
-            // Get data from UI fields
             string fullName = FullNameTextBox.Text.Trim();
             string email = EmailTextBox.Text.Trim();
             string password = PasswordBox.Password;
             string confirmPassword = ConfirmPasswordBox.Password;
 
-            // --- Basic Input Validation ---
             if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(email) ||
                 string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
             {
@@ -69,7 +65,6 @@ namespace CW3_Group_5
                 return;
             }
 
-            // --- Splitting Full Name into First and Last Name ---
             string firstName = "";
             string lastName = "";
             string[] nameParts = fullName.Split(new char[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
@@ -81,40 +76,32 @@ namespace CW3_Group_5
                     lastName = nameParts[1];
                 }
             }
-            // If only one part, lastName will remain empty. You might want to enforce both.
-            // If you want to strictly enforce separate first/last names, it's better to have two separate TextBoxes in XAML.
 
-            // --- Password Handling (IMPORTANT: In production, hash this password!) ---
-            // For this demo, we are storing the plain password as PasswordHash,
-            // but this is NOT secure for real applications.
-            string passwordHash = password; //
+            // --- HASH THE PASSWORD BEFORE STORING ---
+            string passwordHash = ComputeSha256Hash(password);
 
-            // Default role ID for new users (e.g., 2 for a regular user, 1 for admin)
-            int roleId = 2; //
+            int roleId = 2; // Default role ID for new users
 
-            // --- SQL INSERT Command ---
             string query = "INSERT INTO Users (FirstName, LastName, Email, PasswordHash, RoleID) " +
-                           "VALUES (@FirstName, @LastName, @Email, @PasswordHash, @RoleID)"; //
+                           "VALUES (@FirstName, @LastName, @Email, @PasswordHash, @RoleID)";
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString)) //
-                using (SqlCommand command = new SqlCommand(query, connection)) //
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    // Add parameters to prevent SQL injection and handle data types
-                    command.Parameters.AddWithValue("@FirstName", firstName); //
-                    command.Parameters.AddWithValue("@LastName", lastName); //
-                    command.Parameters.AddWithValue("@Email", email); //
-                    command.Parameters.AddWithValue("@PasswordHash", passwordHash); //
-                    command.Parameters.AddWithValue("@RoleID", roleId); //
+                    command.Parameters.AddWithValue("@FirstName", firstName);
+                    command.Parameters.AddWithValue("@LastName", lastName);
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.Parameters.AddWithValue("@PasswordHash", passwordHash); // Store the hashed password
+                    command.Parameters.AddWithValue("@RoleID", roleId);
 
-                    connection.Open(); // Open the database connection
-                    int result = command.ExecuteNonQuery(); // Execute the INSERT statement
+                    connection.Open();
+                    int result = command.ExecuteNonQuery();
 
                     if (result > 0)
                     {
-                        MessageBox.Show("Sign up successful!"); //
-                        // Optionally, navigate to login window or main window
+                        MessageBox.Show("Sign up successful!");
                         Login_RegistrationWindow loginWin = new Login_RegistrationWindow();
                         loginWin.Show();
                         this.Close();
@@ -127,14 +114,13 @@ namespace CW3_Group_5
             }
             catch (SqlException ex)
             {
-                // Check for unique constraint violation (e.g., email already exists)
-                if (ex.Number == 2627) //
+                if (ex.Number == 2627) // Unique constraint violation (e.g., email already exists)
                 {
                     MessageBox.Show("Email already exists. Please use a different email address.");
                 }
                 else
                 {
-                    MessageBox.Show("Database error: " + ex.Message); //
+                    MessageBox.Show("Database error: " + ex.Message);
                 }
             }
             catch (Exception ex)
@@ -142,6 +128,22 @@ namespace CW3_Group_5
                 MessageBox.Show("An unexpected error occurred: " + ex.Message);
             }
         }
+
+        // --- ADD THIS HELPER METHOD FOR PASSWORD HASHING ---
+        private string ComputeSha256Hash(string rawData)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+        // ---------------------------------------------------
 
         private void ReturnHome_Click(object sender, RoutedEventArgs e)
         {

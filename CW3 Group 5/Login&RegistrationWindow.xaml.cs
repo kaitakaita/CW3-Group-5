@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Data.SqlClient; // <--- Add this using directive for SQL Server interaction
+using System.Data.SqlClient;
+using System.Security.Cryptography; // ADD THIS FOR HASHING
+using System.Text;                  // ADD THIS FOR HASHING
 
 namespace CW3_Group_5
 {
-    /// <summary>
-    /// Interaction logic for Login_RegistrationWindow.xaml
-    /// </summary>
     public partial class Login_RegistrationWindow : Window
     {
-        // Declare connectionString once at the class level
         private readonly string connectionString =
-            @"Server=localhost\SQLEXPRESS;Database=HotelBookingDB;Trusted_Connection=True;"; //
+            @"Server=localhost\SQLEXPRESS;Database=HotelBookingDB;Trusted_Connection=True;";
 
         public Login_RegistrationWindow()
         {
@@ -20,16 +18,8 @@ namespace CW3_Group_5
         }
 
         // Optional, remove if not needed
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            // Optional, remove if not needed
-        }
-
-        // Optional, remove if not needed
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-            // Optional, remove if not needed
-        }
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e) { }
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e) { }
 
         private void EmailTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -49,7 +39,7 @@ namespace CW3_Group_5
         {
             SignUpWindow signUpWindow = new SignUpWindow();
             signUpWindow.Show();
-            this.Close(); // Optional: close login/registration window
+            this.Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -61,53 +51,50 @@ namespace CW3_Group_5
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
-            this.Close(); // closes the current window
+            this.Close();
         }
 
         private void SignInButton_Click(object sender, RoutedEventArgs e)
         {
-            string email = EmailTextBox.Text.Trim(); // Trim whitespace
-            string password = PasswordBox.Password;   // Get password
+            string email = EmailTextBox.Text.Trim();
+            string password = PasswordBox.Password;
 
-            // --- Basic Validation ---
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
                 MessageBox.Show("Please enter both email and password.", "Sign In Failed", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
+            // --- HASH THE INPUT PASSWORD FOR COMPARISON ---
+            string hashedPassword = ComputeSha256Hash(password);
+
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    // SQL query to check if the email and password (hash) exist in the Users table
-                    // IMPORTANT: This assumes PasswordHash stores the plain password for now.
-                    // In a real application, you'd hash the 'password' input here and compare hashes.
-                    string query = "SELECT UserID, RoleID FROM Users WHERE Email = @Email AND PasswordHash = @PasswordHash"; //
+                    string query = "SELECT UserID, RoleID, FirstName FROM Users WHERE Email = @Email AND PasswordHash = @PasswordHash";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        // Add parameters to prevent SQL injection
                         command.Parameters.AddWithValue("@Email", email);
-                        command.Parameters.AddWithValue("@PasswordHash", password); // Compare with plain password stored in DB for now
+                        command.Parameters.AddWithValue("@PasswordHash", hashedPassword); // Compare with the hashed input password
 
-                        connection.Open(); // Open the database connection
+                        connection.Open();
 
-                        // Use ExecuteReader to read data (UserID and RoleID)
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            if (reader.Read()) // If a row is returned, credentials are valid
+                            if (reader.Read())
                             {
-                                int userId = reader.GetInt32(0); // Get UserID (first column)
-                                int roleId = reader.GetInt32(1); // Get RoleID (second column)
+                                int userId = reader.GetInt32(0);
+                                int roleId = reader.GetInt32(1);
+                                string firstName = reader.GetString(2); // Assuming FirstName is retrieved from the Users table
 
-                                MessageBox.Show("Login successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                                MessageBox.Show($"Login successful! Welcome {firstName}. Your RoleID is {roleId}.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 
-                                // TODO: Based on RoleID, you might open different windows or enable different features
-                                // For now, let's open BookHotelWindow
                                 BookHotelWindow bookHotelWindow = new BookHotelWindow();
+                                bookHotelWindow.CurrentUserId = userId; // Pass the logged-in user's ID
                                 bookHotelWindow.Show();
-                                this.Close(); // Close the current login window
+                                this.Close();
                             }
                             else
                             {
@@ -126,5 +113,21 @@ namespace CW3_Group_5
                 MessageBox.Show("An unexpected error occurred: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        // --- ADD THIS HELPER METHOD FOR PASSWORD HASHING ---
+        private string ComputeSha256Hash(string rawData)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+        // ---------------------------------------------------
     }
 }

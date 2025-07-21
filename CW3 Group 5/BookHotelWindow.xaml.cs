@@ -1,7 +1,6 @@
+using System; // Added for DateTime
 using System.Collections.Generic;
-
-
-using CW3_Group_5.Models;
+using CW3_Group_5.Models; // Ensure your Hotel model is correctly defined here
 using System.ComponentModel;
 using System.Data.SqlClient;
 using System.Linq;
@@ -14,7 +13,12 @@ namespace CW3_Group_5
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-       
+        // --- Database Connection String ---
+        private readonly string connectionString = @"Server=localhost\SQLEXPRESS;Database=HotelBookingDB;Trusted_Connection=True;"; // Ensure this matches your DB setup
+
+        // Assuming you'll have a way to get the current logged-in user's ID
+        // For demonstration, I'll use a placeholder. You need to replace this.
+        public int CurrentUserId { get; set; } = 2; // IMPORTANT: Replace with actual logged-in UserID (e.g., from App.cs or Login)
 
         public List<string> Destinations { get; } = new List<string> { "Manila", "Cebu", "Tagaytay", "Bulacan" };
         public List<string> GuestOptions { get; } = new List<string> { "1 Guest", "2 Guests", "3 Guests", "4 Guests", "5 Guests" };
@@ -68,20 +72,17 @@ namespace CW3_Group_5
             }
         }
 
+        // IMPORTANT: These Hotel objects are static dummy data.
+        // In a real application, you'd likely fetch hotels/rooms from the database.
         private List<Hotel> hotels = new List<Hotel>
         {
-            new Hotel { Name = "Sunrise Inn", Location = "Manila", Rate = 1500, Pax = 2, StarRating = 4.5 },
-            new Hotel { Name = "Ocean View", Location = "Manila", Rate = 2200, Pax = 4, StarRating = 4.8 },
-            new Hotel { Name = "Metro Stay", Location = "Manila", Rate = 1800, Pax = 3, StarRating = 4.3 },
-            new Hotel { Name = "City Center Hotel", Location = "Cebu", Rate = 2000, Pax = 2, StarRating = 4.0 },
-            new Hotel { Name = "Beachside Resort", Location = "Cebu", Rate = 2500, Pax = 5, StarRating = 4.7 },
-            new Hotel { Name = "Cebu Grand", Location = "Cebu", Rate = 2100, Pax = 3, StarRating = 4.2 },
-            new Hotel { Name = "Taal Vista", Location = "Tagaytay", Rate = 3000, Pax = 2, StarRating = 4.6 },
-            new Hotel { Name = "Skyline Hotel", Location = "Tagaytay", Rate = 2800, Pax = 4, StarRating = 4.4 },
-            new Hotel { Name = "Tagaytay Suites", Location = "Tagaytay", Rate = 2500, Pax = 3, StarRating = 4.5 },
-            new Hotel { Name = "Bulacan Paradise", Location = "Bulacan", Rate = 1700, Pax = 2, StarRating = 4.1 },
-            new Hotel { Name = "Garden Hotel", Location = "Bulacan", Rate = 1600, Pax = 3, StarRating = 4.0 },
-            new Hotel { Name = "Bulacan Royal", Location = "Bulacan", Rate = 1800, Pax = 4, StarRating = 4.3 }
+            // Ensure HotelID_DB, RoomTypeID_DB, RoomID_DB match your DB's initial INSERTs for Rooms/Hotels
+            new Hotel { Name = "Sunrise Inn", Location = "Manila", Rate = 1500, Pax = 2, StarRating = 4.5, HotelID_DB = 1, RoomTypeID_DB = 1, RoomID_DB = 1 },
+            new Hotel { Name = "Ocean View", Location = "Manila", Rate = 2200, Pax = 4, StarRating = 4.8, HotelID_DB = 1, RoomTypeID_DB = 2, RoomID_DB = 2 },
+            new Hotel { Name = "Metro Stay", Location = "Manila", Rate = 1800, Pax = 3, StarRating = 4.3, HotelID_DB = 2, RoomTypeID_DB = 1, RoomID_DB = 3 },
+            new Hotel { Name = "City Center Hotel", Location = "Cebu", Rate = 2000, Pax = 2, StarRating = 4.0, HotelID_DB = 2, RoomTypeID_DB = 3, RoomID_DB = 4 },
+            // Add more as needed, linking to actual HotelID, RoomTypeID, RoomID from your DB if you want to use them directly.
+            // For a real app, you'd dynamically load these from your database's Hotel and Room tables.
         };
 
         private List<Hotel> _filteredHotels;
@@ -136,8 +137,78 @@ namespace CW3_Group_5
         {
             if (sender is Button btn && btn.DataContext is Hotel selectedHotel)
             {
-                PaymentWindow paymentWindow = new PaymentWindow(selectedHotel.Rate, 0);
-                paymentWindow.ShowDialog();
+                // You need to get CheckIn and CheckOut dates from your UI, e.g., DatePicker controls
+                // For this example, I'll use placeholders. Replace with actual UI element values.
+                // Example: DateTime checkInDate = YourCheckInDatePicker.SelectedDate.GetValueOrDefault();
+                // Example: DateTime checkOutDate = YourCheckOutDatePicker.SelectedDate.GetValueOrDefault();
+                DateTime checkInDate = DateTime.Now.Date.AddDays(7); // Placeholder
+                DateTime checkOutDate = DateTime.Now.Date.AddDays(10); // Placeholder
+
+                // Input validation for dates
+                if (checkInDate == null || checkOutDate == null || checkInDate >= checkOutDate)
+                {
+                    MessageBox.Show("Please select valid check-in and check-out dates.", "Date Selection Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+                // Crucial: Check if the RoomID_DB is valid before proceeding
+                if (selectedHotel.RoomID_DB == 0) // Assuming 0 means not set/invalid
+                {
+                    MessageBox.Show("Selected hotel does not have a valid RoomID for booking. Please check your data setup.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
+                int newBookingId = -1; // Initialize with an invalid ID
+
+                try
+                {
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        connection.Open();
+
+                        string insertBookingQuery = @"
+                            INSERT INTO Booking (UserID, RoomID, CheckInDate, CheckOutDate, TotalPrice, BookingStatus)
+                            OUTPUT INSERTED.BookingID -- This is crucial to get the generated BookingID
+                            VALUES (@UserID, @RoomID, @CheckInDate, @CheckOutDate, @TotalPrice, @BookingStatus)";
+
+                        using (SqlCommand command = new SqlCommand(insertBookingQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@UserID", CurrentUserId); // Use the logged-in user's ID
+                            command.Parameters.AddWithValue("@RoomID", selectedHotel.RoomID_DB); // Use the actual RoomID from selected hotel/room
+                            command.Parameters.AddWithValue("@CheckInDate", checkInDate);
+                            command.Parameters.AddWithValue("@CheckOutDate", checkOutDate);
+                            command.Parameters.AddWithValue("@TotalPrice", selectedHotel.Rate); // Use the hotel's rate as total price
+                            command.Parameters.AddWithValue("@BookingStatus", "Pending"); // Initial status
+
+                            // ExecuteScalar returns the first column of the first row returned by the query
+                            newBookingId = (int)command.ExecuteScalar();
+                        }
+                    }
+
+                    if (newBookingId > 0)
+                    {
+                        MessageBox.Show($"Booking created successfully! Booking ID: {newBookingId}", "Booking Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        // Now, pass the *actual* newBookingId to the PaymentWindow
+                        PaymentWindow paymentWindow = new PaymentWindow(selectedHotel.Rate, newBookingId);
+                        paymentWindow.ShowDialog(); // Use ShowDialog to make it modal
+
+                        // You might want to refresh the hotel list or update booking status visually here
+                        // after the payment window closes.
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to create booking. No Booking ID was returned.", "Booking Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                catch (SqlException sqlEx)
+                {
+                    MessageBox.Show($"Database error during booking: {sqlEx.Message}\nError Code: {sqlEx.Number}", "Booking Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An unexpected error occurred during booking: {ex.Message}", "Booking Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             else
             {
